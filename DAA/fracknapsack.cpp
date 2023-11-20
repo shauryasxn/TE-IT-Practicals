@@ -1,48 +1,63 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
-struct item {
-    int weight, profit;
+struct Item
+{
+    int wt;
+    int prof;
     double ratio;
 };
 
-bool compare (item a, item b) {
+bool compare (Item a, Item b)
+{
     return a.ratio > b.ratio;
 }
 
-float fracKnapsack (vector<item> items , int capacity, int n) {
-    double finalprofit = 0;
+float frac_knapsack (vector<Item> items, int cap, int n)
+{
+    double profit = 0;
 
-    for (int i=0; i<n; i++) {
-        if (items[i].weight<= capacity) {
-            capacity -= items[i].weight;
-            finalprofit += items[i].profit;
+    for (int i=0; i<n; i++)
+    {
+        if (items[i].wt <= cap)
+        {
+            cap -= items[i].wt;
+            profit += items[i].prof;
         }
-        else {
-            double fraction = (double) capacity / items[i].weight;
-            finalprofit += (double) fraction * items[i].profit;
+        else
+        {
+            double frac = (double) cap/items[i].wt;
+            profit += frac * items[i].prof;
             break;
         }
     }
-    return finalprofit;
+    return profit;
 }
 
-int main() {
-    int n, capacity;
-    cout << "\nEnter Number of Items: ";
+int main ()
+{
+    int n, cap;
+    cout << "Enter no. of items: ";
     cin >> n;
-    cout << "\nEnter Max Capacity of Knapsack: ";
-    cin >> capacity;
 
-    vector<item> items (n);
-    for (int i=0; i<n; i++) {
-        cout << "Enter Profit and Weight of item " << i+1 << ":";
-        cin >> items[i].profit >> items[i].weight;
-        items[i].ratio = items[i].profit/items[i].weight;
-        }
-    sort(items.begin(), items.end(), compare);
-    float finalprofit = fracKnapsack(items, capacity, n);
-    cout << endl << "Maximum possible profit is: " << finalprofit;
+    cout << "Enter capacity of knapsack: ";
+    cin >> cap;
+
+    vector<Item> items (n);
+    cout << endl << "Enter weight and values->" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "Enter Profit and weight of item " << i + 1 << endl;
+        cin >> items[i].prof >> items[i].wt;
+        items[i].ratio = items[i].prof / items[i].wt;
+    }
+
+    sort (items.begin(), items.end(), compare);
+
+    float profit = frac_knapsack (items, cap, n);
+    cout << endl << "Maximum possible profit is: " << profit;
+
     return 0;
 }

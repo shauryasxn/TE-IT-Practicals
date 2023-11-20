@@ -1,72 +1,55 @@
 #include <iostream>
-#include <vector>
-#include <limits>
+#include <climits>
 
 using namespace std;
 
-const int INF = numeric_limits<int>::max();
-
 struct Edge {
-    int source, destination, weight;
+    int src, dest, weight;
 };
 
-void bellmanFord(vector<Edge>& edges, int V, int E, int source) {
-    vector<int> distance(V, INF);
+void bellmanFord(Edge edges[], int V, int E, int source) {
+    int distance[V];
+    for (int i = 0; i < V; i++) {
+        distance[i] = INT_MAX;
+    }
     distance[source] = 0;
-
-    // Relax all edges V-1 times
-    for (int i = 0; i < V - 1; i++) {
+    for (int i = 1; i <= V - 1; i++) {
         for (int j = 0; j < E; j++) {
-            int u = edges[j].source;
-            int v = edges[j].destination;
+            int u = edges[j].src;
+            int v = edges[j].dest;
             int w = edges[j].weight;
-            if (distance[u] != INF && distance[u] + w < distance[v]) {
+            if (distance[u] != INT_MAX && distance[u] + w < distance[v]) {
                 distance[v] = distance[u] + w;
             }
         }
     }
-
-    // Check for negative weight cycles
     for (int i = 0; i < E; i++) {
-        int u = edges[i].source;
-        int v = edges[i].destination;
+        int u = edges[i].src;
+        int v = edges[i].dest;
         int w = edges[i].weight;
-        if (distance[u] != INF && distance[u] + w < distance[v]) {
-            cout << "Graph contains a negative weight cycle." << endl;
+        if (distance[u] != INT_MAX && distance[u] + w < distance[v]) {
+            cout << "Graph contains negative-weight cycle!" << endl;
             return;
         }
     }
-
-    // Print the shortest distances from the source vertex
-    cout << "Shortest distances from the source vertex (vertex " << source << "):" << endl;
+    cout << "Vertex\tDistance from Source" << endl;
     for (int i = 0; i < V; i++) {
-        cout << "Vertex " << i << ": " << distance[i] << endl;
+        cout << i << "\t" << distance[i] << endl;
     }
 }
 
 int main() {
     int V, E;
-    cout << "Enter the number of vertices (V) and edges (E): ";
+    cout << "Enter Number of Vertices & Edges (separated by space): " << endl;
     cin >> V >> E;
-
-    vector<Edge> edges(E);
-
-    cout << "Enter the source, destination, and weight of each edge:" << endl;
+    Edge edges[E];
+    cout << "Enter Source, Destination & Weight (separated by space): " << endl;
     for (int i = 0; i < E; i++) {
-        cin >> edges[i].source >> edges[i].destination >> edges[i].weight;
+        cin >> edges[i].src >> edges[i].dest >> edges[i].weight;
     }
-
     int source;
-    cout << "Enter the source vertex: ";
+    cout << "Enter Source: ";
     cin >> source;
-
-    clock_t startTime = clock();
     bellmanFord(edges, V, E, source);
-    clock_t endTime = clock();
-
-    double timeElapsed = double(endTime - startTime) / CLOCKS_PER_SEC;
-    cout << "Time taken by Bellman-Ford algorithm: " << timeElapsed << " seconds" << endl;
-    cout << "Expected time complexity: O(V * E)" << endl;
-
     return 0;
 }
