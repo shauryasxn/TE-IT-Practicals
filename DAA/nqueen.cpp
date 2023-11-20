@@ -1,42 +1,42 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool foundSolution = false;  
+bool solutionFound = false;  
 
-void print(int n, int col[]) {
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++)
-            cout << (col[i] == j ? 'Q' : '.') << " ";
+void printBoard(int n, int queensInRow[]) {
+    for (int row = 0; row < n; row++) {
+        for (int col = 0; col < n; col++)
+            cout << (queensInRow[row] == col ? 'Q' : '.') << " ";
         cout << "\n";
     }
     cout << "\n";
 }
 
-bool place(int queen, int c, int col[]) {
-    for (int j = 0; j < queen; j++)
-        if (col[j] == c || abs(col[j] - c) == abs(j - queen))
+bool isSafe(int currentRow, int currentCol, int queensInRow[]) {
+    for (int prevRow = 0; prevRow < currentRow; prevRow++)
+        if (queensInRow[prevRow] == currentCol || abs(queensInRow[prevRow] - currentCol) == abs(prevRow - currentRow))
             return false;
     return true;
 }
 
-void nqueen(int queen, int n, int col[]) {
-    if (queen == n) {
-        print(n, col);
-        foundSolution = true;  
+void solveNQueens(int currentRow, int n, int queensInRow[]) {
+    if (currentRow == n) {
+        printBoard(n, queensInRow);
+        solutionFound = true;  
         return;
     }
 
-    for (int i = 0; i < n; i++) {
-        if (!foundSolution && place(queen, i, col)) {
-            col[queen] = i;
-            nqueen(queen + 1, n, col);
+    for (int col = 0; col < n; col++) {
+        if (!solutionFound && isSafe(currentRow, col, queensInRow)) {
+            queensInRow[currentRow] = col;
+            solveNQueens(currentRow + 1, n, queensInRow);
         }
     }
 }
 
 int main() {
     int n;
-    cout << "Enter Size of chessboard : ";
+    cout << "Enter the size of the chessboard: ";
     cin >> n;
 
     if (n <= 3) {
@@ -44,10 +44,10 @@ int main() {
         return 0;
     }
 
-    int col[n];
-    nqueen(0, n, col);
+    int queensInRow[n];
+    solveNQueens(0, n, queensInRow);
 
-    if (!foundSolution) {
+    if (!solutionFound) {
         cout << "No solution found.\n";
     }
 
