@@ -10,7 +10,7 @@ void bellmanFord(Edge edges[], int V, int E, int source) {
 
     vector <int> distance (V, INT_MAX);
     distance[source] = 0;
-    for (int i = 1; i <= V - 1; i++) {
+    for (int i = 0; i <= V ; i++) {
         for (int j = 0; j < E; j++) {
             int u = edges[j].src;
             int v = edges[j].dest;
