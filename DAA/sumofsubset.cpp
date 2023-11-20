@@ -1,6 +1,4 @@
-#include <iostream>
-#include <vector>
-
+#include<bits/stdc++.h>
 using namespace std;
 
 void PrintSubsetSum(int i, int n, int set[], int targetSum, vector<int>& subset) {
