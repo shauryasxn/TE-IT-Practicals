@@ -22,7 +22,7 @@ int knapsackDP(vector<Item> &items, int capacity, vector<vector<int>> &dp)
             {
                 dp[i][w] = dp[i - 1][w];
             }
-        },
+        }
     }
     return dp[n][capacity];
 }

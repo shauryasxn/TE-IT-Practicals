@@ -1,5 +1,4 @@
-#include <iostream>
-#include <climits>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -8,10 +7,8 @@ struct Edge {
 };
 
 void bellmanFord(Edge edges[], int V, int E, int source) {
-    int distance[V];
-    for (int i = 0; i < V; i++) {
-        distance[i] = INT_MAX;
-    }
+
+    vector <int> distance (V, INT_MAX);
     distance[source] = 0;
     for (int i = 1; i <= V - 1; i++) {
         for (int j = 0; j < E; j++) {

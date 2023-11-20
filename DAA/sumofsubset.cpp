@@ -17,10 +17,8 @@ void PrintSubsetSum(int i, int n, int set[], int targetSum, vector<int>& subset)
         return;
     }
 
-    // Exclude current element
     PrintSubsetSum(i + 1, n, set, targetSum, subset);
 
-    // Include current element
     subset.push_back(set[i]);
     PrintSubsetSum(i + 1, n, set, targetSum - set[i], subset);
     subset.pop_back();
