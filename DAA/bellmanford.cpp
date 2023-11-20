@@ -36,10 +36,10 @@ void bellmanFord(Edge edges[], int V, int E, int source) {
 
 int main() {
     int V, E;
-    cout << "Enter Number of Vertices & Edges (separated by space): " << endl;
+    cout << "Enter Number of Vertices & Edges : " << endl;
     cin >> V >> E;
     Edge edges[E];
-    cout << "Enter Source, Destination & Weight (separated by space): " << endl;
+    cout << "Enter Source, Destination & Weight : " << endl;
     for (int i = 0; i < E; i++) {
         cin >> edges[i].src >> edges[i].dest >> edges[i].weight;
     }
